@@ -1,38 +1,22 @@
 package audit.factory;
 
-import audit.entity.AuditEntity;
+import audit.strategy.AddDocumentStrategy;
+import audit.strategy.AuditStrategy;
 
 public abstract class AuditFactory {
 
-	private AuditEntity auditEntity;
-	
-	protected abstract String createEventData();
-
-	/**
-	 * create auditEvent
-	 * 
-	 * @return create success or not
-	 */
-	public boolean createAudit() {
+	public static AuditStrategy getInstance(String auditName) {
+		AuditStrategy auditStrategy = null;
 		
-		return false;
-	}
-	
-	@Override
-	public String toString() {
-		return " - Name: " + auditEntity.getName() +
-				"\n - Type: " + auditEntity.getType() +
-				"\n - Sub type: " + auditEntity.getSubType() +
-				"\n - Event data: " + auditEntity.getEventData() +
-				"\n - Audit date: " + auditEntity.getAuditDate();
-	}
-
-	public AuditEntity getAuditEntity() {
-		return auditEntity;
-	}
-
-	public void setAuditEntity(AuditEntity auditEntity) {
-		this.auditEntity = auditEntity;
+		switch(auditName) {
+		case "ADD_DOCUMENT":
+			auditStrategy = new AddDocumentStrategy();
+			break;
+		default:
+			break;
+		}
+		
+		return auditStrategy;
 	}
 	
 }
